@@ -26,9 +26,12 @@ enum Compass { N, NE, E, SE, S, SW, W, NW, LAST };
 class MazeCell
 {
 public:
+  // CONSTRUCTORS
   MazeCell(void);
   MazeCell(unsigned idx, unsigned w);
   MazeCell(unsigned x, unsigned y, unsigned w);
+
+  // GETTERS & SETTERS
   void setX(unsigned x);
   void setY(unsigned y);
   void setWeight(unsigned w);
@@ -37,16 +40,25 @@ public:
   void setChecked(void);
   void clearChecked(void);
   bool isChecked(void);
+  unsigned getIndex(void);
+
+  // WALL MANIPULATION
   void setWallInDirec(Compass direc);
   void unsetWallInDirec(Compass direc);
   bool isWallInDirec(Compass direc);
   unsigned getWallMask(void);
+
+  // NODE MANIPULATION
   void addNodeInDirec(Compass direc, MazeCell* node);
   MazeCell* getNodeInDirec(Compass direc);
   void delNodeInDirec(Compass direc);
+
+  // STATIC METHODS
   static unsigned coordToIdx(Coord loc);
   static unsigned coordToIdx(unsigned x, unsigned y);
   static Coord idxToCoord(unsigned idx);
+  static Coord compassToCoord(Coord cur, Compass direc);
+  static unsigned compassToIdx(Coord cur, Compass direc);
 
 private:
   Coord loc;

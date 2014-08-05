@@ -76,6 +76,11 @@ bool MazeCell::isChecked(void)
   return checked;
 }
 
+unsigned MazeCell::getIndex(void)
+{
+  return index;
+}
+
 void MazeCell::setWallInDirec(Compass direc)
 {
   switch(direc) {
@@ -148,4 +153,35 @@ Coord MazeCell::idxToCoord(unsigned idx)
   res.y = idx / MAZE_MAX;
 
   return res;
+}
+
+Coord MazeCell::compassToCoord(Coord cur, Compass direc)
+{
+    Coord nxt = cur;
+
+    switch (direc) {
+        case Compass::N: --nxt.y; break;
+        case Compass::NE: ++nxt.x; --nxt.y; break;
+        case Compass::E: ++nxt.x; break;
+        case Compass::SE: ++nxt.x; ++nxt.y; break;
+        case Compass::S: ++nxt.y; break;
+        case Compass::SW: --nxt.x; ++nxt.y; break;
+        case Compass::W: --nxt.x; break;
+        case Compass::NW: --nxt.x; ++nxt.y; break;
+        default: nxt.x = -1; nxt.y = -1;
+    }
+    return nxt;
+}
+
+unsigned MazeCell::compassToIdx(Coord cur, Compass direc)
+{
+    unsigned res;
+    Coord nxt = compassToCoord(cur, direc);
+
+    if (nxt.x < 0 || nxt.y < 0 || nxt.x >= MAZE_MAX || nxt.y >= MAZE_MAX) {
+        res = 404;
+    } else {
+        res = coordToIdx(nxt);
+    }
+    return res;
 }
